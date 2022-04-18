@@ -10,7 +10,7 @@
     >
   </base-card>
   <keep-alive>
-  <component :is="selectedTab"></component>
+    <component :is="selectedTab"></component>
   </keep-alive>
 </template>
 
@@ -49,7 +49,8 @@ export default {
   provide() {
     return {
       resources: this.storedResources,
-      addResource: this.addResource
+      addResource: this.addResource,
+      removeResource: this.removeResource,
     };
   },
 
@@ -58,14 +59,25 @@ export default {
       this.selectedTab = tab;
     },
     addResource(title, description, url) {
-      this.selectedTab=  'StoredResources',
-      this.storedResources.unshift({
-        id: Math.random() * 1000,
-        title,
-        description,
-        link: url
-      });
-      
+      (this.selectedTab = 'StoredResources'),
+        this.storedResources.unshift({
+          id: Math.random() * 1000,
+          title,
+          description,
+          link: url,
+        });
+    },
+    removeResource(id) {
+      console.log('me');
+     console.log(this.storedResources);
+     console.log(id);
+     const index = this.storedResources.findIndex(item => item.id === id)
+
+      // const indexItem = this.storedResources.findIndex();
+
+      // console.log(indexItem);
+      console.log('me2');
+      this.storedResources.splice(index, 1);
     },
   },
 };

@@ -1,22 +1,23 @@
 <template>
     <li>
-        <div>
+        <base-card>
             <header>
                 <h3>{{title}}</h3>
-                <button>
+                <base-button mode='flat'>
                     Delete
-                </button>
+                </base-button>
             </header>
-        </div>
         <p>{{description}}</p>
         <nav>
             <a :href="link">View Resources</a>
         </nav>
+        </base-card>
     </li>
 </template>
 
 
 <script>
+
 export default {
     props:["id" , 'title' , 'description' , "link"]
     

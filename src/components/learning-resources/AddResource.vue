@@ -1,6 +1,16 @@
 <template>
+  <base-dialog v-if="invalidInput" title="Invalid Input" @close='closeDialog'>
+    <template #default>
+      <p>check you inputs One of them is empty</p>
+        <p>if you dont want to check it I will check it</p>
+    </template>
+     <template #actions>
+         <base-button @click="closeDialog">Ok</base-button>
+
+     </template>
+  </base-dialog>
   <base-card>
-    <form @submit.prevent="submitData" >
+    <form @submit.prevent="submitData">
       <div class="form-control">
         <label for="title">Title</label>
         <input
@@ -37,17 +47,33 @@
 import BaseButton from '../UI/BaseButton.vue';
 import BaseCard from '../UI/BaseCard.vue';
 export default {
-inject: ["addResource"],
+  inject: ['addResource'],
   components: { BaseCard, BaseButton },
-
+  data() {
+    return {
+      invalidInput: false,
+    };
+  },
   methods: {
+      closeDialog(){
+          this.invalidInput = false;
+      },
+
     submitData() {
-        
       const enterdTitle = this.$refs.title.value;
       const enterdDescription = this.$refs.description.value;
       const enterdLink = this.$refs.link.value;
 
-      this.addResource(enterdTitle,enterdDescription,enterdLink)
+      if (
+        enterdTitle.trim() === '' ||
+        enterdDescription.trim() === '' ||
+        enterdLink.trim() === ''
+      ) {
+        this.invalidInput = true;
+        return;
+      }
+
+      this.addResource(enterdTitle, enterdDescription, enterdLink);
     },
   },
 };
